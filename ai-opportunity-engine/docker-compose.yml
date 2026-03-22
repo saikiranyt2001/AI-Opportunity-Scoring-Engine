@@ -1,0 +1,27 @@
+services:
+  api:
+    build: .
+    container_name: ai-opportunity-api
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:postgres@db:5432/opportunity
+      ENVIRONMENT: production
+      DEBUG: "false"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16
+    container_name: ai-opportunity-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: opportunity
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
